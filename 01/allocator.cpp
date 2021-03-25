@@ -72,12 +72,23 @@ void BeforeTest()
     assert(testPtr == nullptr);
 }
 
+void ResetTest()
+{
+    Allocator A;
+    A.makeAllocator(5);
+    A.alloc(3);
+    A.reset();
+    char *testPtr = A.alloc(3);
+    assert(testPtr != nullptr);
+}
+
 int main()
 {
     DefaultWorkTest();
     LimitTest();
     RestartTest();
     BeforeTest();
+    ResetTest();
 
     std::cout << "Success!\n";
 
