@@ -4,7 +4,7 @@
 using namespace std;
 
 using CallbackStr = string(*)(string);
-using CallbackInt = string(*)(int);
+using CallbackInt = string(*)(uint64_t);
 using Callback = string(*)();
 
 class TokenParser
@@ -15,7 +15,7 @@ private:
     CallbackStr strCall = nullptr;
     CallbackInt intCall = nullptr;
 public:
-	void SetStartCallback(const Callback & function);
+    void SetStartCallback(const Callback & function);
     void SetEndCallback(const Callback & function);
     void SetDigitTokenCallback(const CallbackInt & function);
     void SetStringTokenCallback(const CallbackStr & function);
