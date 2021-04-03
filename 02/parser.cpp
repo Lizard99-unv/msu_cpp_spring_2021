@@ -2,6 +2,22 @@
 
 using namespace std;
 
+bool CheckLimit(string token){
+    bool flag = true;
+    string max = "18446744073709551615";
+    if (token.length()>20) return false;
+    else{
+        while((token.length()>0) && (max.length()>0)){
+            if (token.back()>max.back()) flag = false;
+            token.pop_back();
+            max.pop_back();
+        }
+        if (token.length()>0) return false;
+        else if (max.length()>0) return true;
+        else return flag;
+    }
+}
+
 void TokenParser::SetStartCallback(const Callback & function){
     start = function;
 }
@@ -41,9 +57,16 @@ string TokenParser::parse(string &str){
                         }
                 }
                 else{
-                    if (intCall != nullptr){
-                        result.append(intCall(stoi(token)));
+                    if (!CheckLimit(token)) {
+                        if (strCall != nullptr){
+                        result.append(strCall(token));
+                        }
                     }
+                    else {
+                        if (intCall != nullptr){
+                            result.append(intCall(stoull(token)));
+                            }
+                        }
                 }
                 token.clear();
                 flag = true;
