@@ -12,22 +12,22 @@ string FinishFunc(){
 }
 
 string StringFunc(string a){
-    return a+" ";
+    return "String: "+a+" ";
 }
 
-string IntFunc(int a){
-    return to_string(a)+" ";
+string IntFunc(uint64_t a){
+    return "Number: "+to_string(a)+" ";
 }
 
 void DefaultTest()
 {
-	TokenParser parser;
+    TokenParser parser;
     parser.SetStartCallback(&StartFunc);
     parser.SetEndCallback(&FinishFunc);
     parser.SetStringTokenCallback(&StringFunc);
     parser.SetDigitTokenCallback(&IntFunc);
-    string str = "abcdf5fas\t  515\t fasf\t\t\n\n\n\n\n\n";
-    assert(parser.parse(str) == "Start abcdf5fas 515 fasf finish");
+    string str = "abcdf5fas\t  515\t fasf\t\t\n\n18446744073709551615\n18446744073709551616\n\n\n";
+    assert(parser.parse(str) == "Start String: abcdf5fas Number: 515 String: fasf Number: 18446744073709551615 String: 18446744073709551616 finish");
 }
 
 void EmptyTest()
@@ -41,16 +41,16 @@ void IntTest()
 {
 	TokenParser parser;
     parser.SetDigitTokenCallback(&IntFunc);
-    string str = "abcdf5fas\t  515\t fasf\t\t\n\n\n\n\n\n";
-    assert(parser.parse(str) == "515 ");
+    string str = "abcdf5fas\t  515\t fasf\t\t\n5\n\n3\n\n\n";
+    assert(parser.parse(str) == "Number: 515 Number: 5 Number: 3 ");
 }
 
 void StringTest()
 {
 	TokenParser parser;
     parser.SetStringTokenCallback(&StringFunc);
-    string str = "abcdf5fas\t  515\t fasf\t\t\n\n\n\n\n\n";
-    assert(parser.parse(str) == "abcdf5fas fasf ");
+    string str = "abcdf5fas\t  515\t fasf\t 5\t\n\na\n\n\n b\n";
+    assert(parser.parse(str) == "String: abcdf5fas String: fasf String: a String: b ");
 }
 
 void StartFinishTest()
