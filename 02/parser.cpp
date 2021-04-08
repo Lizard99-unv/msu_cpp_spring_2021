@@ -54,19 +54,19 @@ string TokenParser::parse(string &str){
                 if (!flag){
                     if (strCall != nullptr){
                         result.append(strCall(token));
-                        }
+                    }
                 }
                 else{
                     if (!CheckLimit(token)) {
                         if (strCall != nullptr){
-                        result.append(strCall(token));
+                            result.append(strCall(token));
                         }
                     }
                     else {
                         if (intCall != nullptr){
                             result.append(intCall(stoull(token)));
-                            }
                         }
+                    }
                 }
                 token.clear();
                 flag = true;
