@@ -19,5 +19,5 @@ public:
     void SetEndCallback(const Callback & function);
     void SetDigitTokenCallback(const CallbackInt & function);
     void SetStringTokenCallback(const CallbackStr & function);
-	string parse (string & text);
+    string parse (string & text);
 };
