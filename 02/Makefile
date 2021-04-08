@@ -7,4 +7,6 @@ test.o:
 	$(CC) $(FLAGS) -c test.cpp -o test.o
 parser.o:
 	$(CC) $(FLAGS) -c parser.cpp -o parser.o
+clean:
+	rm -rf *.o
 
