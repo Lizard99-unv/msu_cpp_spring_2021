@@ -19,13 +19,13 @@ class Matrix
     };
 public:
     Matrix(size_t i, size_t j);
-    int getRow();
-    int getCol();
+    int getRow() const;
+    int getCol() const;
     ProxyRow& operator[](size_t i);
     Matrix& operator *= (int32_t num);
     Matrix& operator += (const Matrix& matrix);
-    bool operator == (const Matrix& matrix);
-    bool operator != (const Matrix& matrix);
+    bool operator == (const Matrix& matrix) const;
+    bool operator != (const Matrix& matrix) const;
     friend std::ostream& operator<< (std::ostream &out, const Matrix &matrix);
     ~Matrix();
 private:
