@@ -40,10 +40,10 @@ Matrix::Matrix(size_t i, size_t j){
         rows_[a] = example;
     }
 }
-int Matrix::getRow(){
+int Matrix::getRow() const{
     return row_numbers;
 }
-int Matrix::getCol(){
+int Matrix::getCol() const{
     return col_numbers;
 }
 Matrix::ProxyRow& Matrix::operator[](size_t i){
@@ -65,7 +65,7 @@ Matrix& Matrix::operator += (const Matrix& matrix){
             rows_[i][j] += matrix.rows_[i][j];
     return *this;
 }
-bool Matrix::operator == (const Matrix& matrix){
+bool Matrix::operator == (const Matrix& matrix) const {
     if ((row_numbers!=matrix.row_numbers) || (col_numbers!=matrix.col_numbers)) return false;
     for (unsigned i = 0; i < row_numbers; i++)
         for (unsigned j = 0; j < col_numbers; j++)
@@ -73,7 +73,7 @@ bool Matrix::operator == (const Matrix& matrix){
                 return false;
     return true;
 }
-bool Matrix::operator != (const Matrix& matrix){
+bool Matrix::operator != (const Matrix& matrix) const {
     if ((row_numbers != matrix.row_numbers) || (col_numbers != matrix.col_numbers)) return true;
     bool flag = true;
         for (unsigned i = 0; i < row_numbers; i++)
@@ -89,7 +89,7 @@ Matrix::~Matrix(){
 std::ostream& operator<< (std::ostream &out, const Matrix &matrix){
     for (unsigned i = 0; i < matrix.row_numbers; i++){
         for (unsigned j = 0; j < matrix.col_numbers; j++)
-            out<<matrix.rows_[i][j];
+            out<<matrix.rows_[i][j]<<' ';
         out<<'\n';
     }
     return out;
