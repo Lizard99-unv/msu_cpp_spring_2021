@@ -34,6 +34,51 @@ void CountArgumentErrorTest(){
     catch(CountArgumentError&){;}
 }
 
+
+void OverflowTest(){
+    try{
+        auto text = format ("{2147483156464864654864654516499} is error", 123, 12);
+    }
+    catch(OverflowError&){;}
+}
+
+void ManyArgsTest(){
+    try{
+        auto text = format ("{0} is error", 0, 2);
+    }
+    catch(TooManyArgsError&){;}
+}
+
+void PositiveTests(){
+    auto text = format("");
+    assert(text == "");
+    text = format("{0}", 1);
+    assert(text == "1");
+    text = format("{0}{1}{2}", 1, 2, 3);
+    assert(text == "123");
+    text = format("{0}{1}{2}{4}{5}{6} is not equal to {7}{8}{9}{10}", 1, 2, 3, 4, 5, 6, 6, 7, 7, 7, 10);
+    assert(text == "123566 is not equal to 77710");
+}
+
+void NegativeTests(){
+    try{
+        auto text = format ("{0}} is error", 0);
+    }
+    catch(ParenthesisError&){;}
+    try{
+        auto text = format ("{} is error", 0);
+    }
+    catch(CountArgumentError&){;}
+    try{
+        auto text = format ("{1str} is error", 0, 1);
+    }
+    catch(WrongArgumentError&){;}
+    try{
+        auto text = format ("{2} is error", 0, 1);
+    }
+    catch(CountArgumentError&){;}
+}
+
 int main()
 {
     DefaultTest();
@@ -41,6 +86,10 @@ int main()
     ParenthesisErrorTest();
     WrongArgumentErrorTest();
     CountArgumentErrorTest();
+    OverflowTest();
+    ManyArgsTest();
+    PositiveTests();
+    NegativeTests();
 	std::cout<<"Success!"<<std::endl;
     return 0;
 }
