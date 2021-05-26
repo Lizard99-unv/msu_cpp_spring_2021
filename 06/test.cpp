@@ -90,6 +90,6 @@ int main()
     ManyArgsTest();
     PositiveTests();
     NegativeTests();
-	std::cout<<"Success!"<<std::endl;
+    std::cout<<"Success!"<<std::endl;
     return 0;
 }
