@@ -5,6 +5,7 @@
 #include <exception> 
 #include <iostream>
 
+const std::string border = "2147483648"; 
 
 template <class T>
 std::string to_str(T&& val)
@@ -18,6 +19,8 @@ std::string to_str(T&& val)
 struct CountArgumentError: public std::exception {};
 struct WrongArgumentError: public std::exception {};
 struct ParenthesisError: public std::exception {};
+struct OverflowError: public std::exception {};
+struct TooManyArgsError: public std::exception {};
 
 
 template <class ... Args>
@@ -25,6 +28,7 @@ std::string format(const std::string& str, Args&& ... args)
 {
 	std::vector<std::string> args_vect = {to_str(std::forward<Args>(args)) ...};
 	std::string result, buf;
+	int max = 0;
 	int str_len = str.size();
 	int arg_len = args_vect.size();
 	bool open_paren = false;
@@ -62,6 +66,10 @@ std::string format(const std::string& str, Args&& ... args)
 				{
 					throw CountArgumentError();
 				}
+				else if ((buf.size() > border.size()) || ((buf.size() == border.size()) && (buf >= border))){
+					buf.clear();
+					throw OverflowError();
+				}
 				else if (std::stoi(buf) >= arg_len || std::stoi(buf) < 0)
 				{
 					buf.clear();
@@ -71,7 +79,9 @@ std::string format(const std::string& str, Args&& ... args)
 				{
 					open_paren = false;
 					closed_paren = true;
-					result += args_vect[std::stoi(buf)];
+					int number = std::stoi(buf);
+					if (number > max) max = number;
+					result += args_vect[number];
 					buf.clear();
 				}
 			}
@@ -85,6 +95,10 @@ std::string format(const std::string& str, Args&& ... args)
 	if (open_paren)
 	{
 		throw ParenthesisError();
+	}
+	if ((arg_len - 1) > max)
+	{
+		throw TooManyArgsError();
 	}
 	return result;
 }
